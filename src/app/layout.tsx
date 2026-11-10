@@ -1,32 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// next/font baixa as fontes no build e serve do nosso domínio (sem chamada
+// ao Google no navegador). Cada uma vira uma variável CSS usada pelo Tailwind.
+const inter = Inter({ variable: "--font-sans", subsets: ["latin"] });
+const mono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"], weight: ["500"] });
 
 export const metadata: Metadata = {
-  title: "Carteira",
+  title: "InvestIQ",
   description: "Gerenciamento de carteira de investimentos",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    // Tema preto como principal: a classe "dark" ativa os tokens de .dark.
+    <html lang="pt-BR" className={`dark ${inter.variable} ${mono.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col text-sm">
         {children}
-        <Toaster richColors />
+        <Toaster richColors theme="dark" />
       </body>
     </html>
   );
