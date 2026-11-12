@@ -11,7 +11,10 @@ const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 export const isGoogleEnabled = Boolean(googleClientId && googleClientSecret);
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL,
+  // Tira a "/" final: com "https://site.app/" o Better Auth entende o "/"
+  // como caminho base e as rotas /api/auth/* passam a dar 404.
+  baseURL: process.env.BETTER_AUTH_URL?.replace(/\/+$/, ""),
+  basePath: "/api/auth",
   database: drizzleAdapter(db, { provider: "pg", schema }),
 
   emailAndPassword: {
